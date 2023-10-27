@@ -77,7 +77,7 @@ def meanofNormalizedData(m_PSDData_MF_norm):
 
 
 
-def getTopoplots(m_PSDData_MF_norm_mean, v_FreqBands_Names, elec):
+def getTopoplots(m_PSDData_MF_norm_mean, v_FreqBands_Names, elec, v_ChanNames):
 
     sc = SceneObj(bgcolor='white', size=(1500 * (len(v_FreqBands_Names)-1), 1000))
     for i_band in range(len(v_FreqBands_Names)):
@@ -96,8 +96,8 @@ def getTopoplots(m_PSDData_MF_norm_mean, v_FreqBands_Names, elec):
                     'C5','C1','C2','C6','CP3','CP4','P5','P1','P2','P6','PO5','PO3','PO4','PO6','FT7','FT8','TP7','TP8','PO7','PO8','Oz']
         if elec==8:
             ch_names = ['Fp1', 'Fp2', 'T3', 'T4', 'C3', 'C4', 'O1', 'O2']
-            
-        t_obj = TopoObj('topo', v_Data, channels=ch_names, **kw_top)
+        ch_names = v_ChanNames
+        t_obj = TopoObj('topo', v_Data, channels=ch_names, chan_mark_symbol=None, **kw_top)
         sc.add_to_subplot(t_obj, row=0, col=i_band, title=f' {v_FreqBands_Names[i_band]} ', **kw_title)
 
 
@@ -107,7 +107,7 @@ def getTopoplots(m_PSDData_MF_norm_mean, v_FreqBands_Names, elec):
     sc.preview()
     
     
-def connectivity(m_PSDData_MF_norm, v_FreqBands_Names):
+def connectivity(m_PSDData_MF_norm, v_FreqBands_Names,v_ChanNames):
 
     m_Data = m_PSDData_MF_norm
 
@@ -169,7 +169,7 @@ def connectivity(m_PSDData_MF_norm, v_FreqBands_Names):
      #           'CP6','P7','P3','Pz','P4','P8','POz','O1','O2','AF7','AF3','AF4','AF8','F5','F1','F2','F6','FC3','FCz','FC4',
       #          'C5','C1','C2','C6','CP3','CP4','P5','P1','P2','P6','PO5','PO3','PO4','PO6','FT7','FT8','TP7','TP8','PO7','PO8','Oz']
 
-    tick_labels = ['Fp1', 'Fp2', 'T3', 'T4', 'C3', 'C4', 'O1', 'O2']
+    tick_labels = v_ChanNames
     
     
     sn.heatmap(corr, xticklabels=tick_labels, yticklabels=tick_labels, cmap = 'coolwarm')
@@ -178,7 +178,6 @@ def connectivity(m_PSDData_MF_norm, v_FreqBands_Names):
     title_props = {'family': 'serif', 'size': 20, 'weight': 'bold', 'color': 'black'}
     plt.title("Effective connectivity (weighted directed network)", fontdict=title_props)
     plt.show()
-
     
 
 
